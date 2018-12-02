@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="../lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="../lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="../lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="../lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="../css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16-next.png?v=6.5.0">
+
+
+  <link rel="mask-icon" href="../images/logo.svg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="闲的没事干撸了一个在线生成假四六级成绩单的网页，主要涉及HTML表单与PHP交互，PHP将文字写入图片，js监听文本框数值并求和返回给另一元素。同理可以制作网上各种所谓的装逼神器页面，类似结婚证，房产证名字等等。">
+<meta name="keywords" content="PHP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用PHP实现线上P四六级成绩单">
+<meta property="og:url" content="http://blog.northword.cn/post/cet-funny.html">
+<meta property="og:site_name" content="北辞">
+<meta property="og:description" content="闲的没事干撸了一个在线生成假四六级成绩单的网页，主要涉及HTML表单与PHP交互，PHP将文字写入图片，js监听文本框数值并求和返回给另一元素。同理可以制作网上各种所谓的装逼神器页面，类似结婚证，房产证名字等等。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.northword.cn/post/">
+<meta property="og:image" content="http://blog.northword.cn/post/">
+<meta property="og:updated_time" content="2018-11-07T15:43:09.296Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用PHP实现线上P四六级成绩单">
+<meta name="twitter:description" content="闲的没事干撸了一个在线生成假四六级成绩单的网页，主要涉及HTML表单与PHP交互，PHP将文字写入图片，js监听文本框数值并求和返回给另一元素。同理可以制作网上各种所谓的装逼神器页面，类似结婚证，房产证名字等等。">
+<meta name="twitter:image" content="http://blog.northword.cn/post/">
+
+
+
+  <link rel="alternate" href="../atom.xml" title="北辞" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.northword.cn/post/cet-funny.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>用PHP实现线上P四六级成绩单 | 北辞</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">北辞</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">一个乡下小站</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.northword.cn">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Northword">
+      <meta itemprop="description" content="一个记录个人技术心得的博客">
+      <meta itemprop="image" content="../images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北辞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">用PHP实现线上P四六级成绩单
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-08 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-08T00:00:00+08:00">2018-08-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-11-07 23:43:09" itemprop="dateModified" datetime="2018-11-07T23:43:09+08:00">2018-11-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="../categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="../categories/前端/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">闲的没事干撸了一个在线生成假四六级成绩单的网页，主要涉及HTML表单与PHP交互，PHP将文字写入图片，js监听文本框数值并求和返回给另一元素。同理可以制作网上各种所谓的装逼神器页面，类似结婚证，房产证名字等等。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>闲来无事想做个东西耍，恰逢四六级即将出分，那便做一个生成假冒四六级的小玩意吧。<br>Demo：<a href="https://www.northword.cn/cet-funny" target="_blank" rel="noopener">生成假四六级成绩单</a></p>
+</blockquote>
+<h1 id="准备图片"><a href="#准备图片" class="headerlink" title="准备图片"></a>准备图片</h1><p>首先，我们当然是需要一个被处理过的成绩单的截图啦，用ps修改后，得到下面这个图。</p>
+<h1 id="PHP实现向图片写入文字"><a href="#PHP实现向图片写入文字" class="headerlink" title="PHP实现向图片写入文字"></a>PHP实现向图片写入文字</h1><p>之后就该考虑如何采集修改者的信息并将其写到图片上了，恰好在B站看到了一个相关的视频：av（视频已失效），了解到php中<code>imagettftext</code>可以向图片写入字符串。<br>其语法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">imagettftext(底图,字号,旋转角度,X轴坐标,Y轴坐标,字体颜色,字体文件,要写入的字符串);</span><br></pre></td></tr></table></figure></p>
+<p>颜色必须使用<code>RGB</code>格式，否则会运行错误造成HTTP500.</p>
+<p>因此上图即可通过下面实现，<br>新建一个php文档，取名CreatPic.php，代码如下。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	header(<span class="string">"content-type: image/jpeg;"</span>);</span><br><span class="line">	<span class="comment">//打开文件</span></span><br><span class="line">	$dst_path=<span class="string">"bg.jpg"</span>;</span><br><span class="line">	$dst=imagecreatefromstring(file_get_contents($dst_path));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//定义样式</span></span><br><span class="line">	$color1 = imagecolorallocate($dst,  <span class="number">48</span>, <span class="number">131</span>, <span class="number">199</span>);   <span class="comment">//蓝色，用于姓名、学校、年份</span></span><br><span class="line">	$color2 = imagecolorallocate($dst, <span class="number">215</span>, <span class="number">30</span>, <span class="number">4</span>);      <span class="comment">//红色，用于总分</span></span><br><span class="line">	$color3 = imagecolorallocate($dst, <span class="number">124</span>, <span class="number">124</span>, <span class="number">124</span>);   <span class="comment">//灰色，用于三科成绩</span></span><br><span class="line"></span><br><span class="line">	$font1=<span class="string">'msyh.ttc'</span>;</span><br><span class="line">	$font2=<span class="string">'msyhbd.ttc'</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//定义文字</span></span><br><span class="line">	$year = <span class="string">"2018"</span>;</span><br><span class="line">	$name = <span class="string">"northword"</span>;</span><br><span class="line">	$school = <span class="string">"sxu"</span>;</span><br><span class="line">	<span class="comment">//下几个参数同样</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//向图片写入文字</span></span><br><span class="line">	imagettftext($dst,<span class="number">27</span>,<span class="number">0</span>,<span class="number">75</span>,<span class="number">112</span>,$color1,$font1,$year);</span><br><span class="line">	imagettftext($dst,<span class="number">19</span>,<span class="number">0</span>,<span class="number">310</span>,<span class="number">225</span>,$color1,$font1,$name);</span><br><span class="line">	imagettftext($dst,<span class="number">19</span>,<span class="number">0</span>,<span class="number">310</span>,<span class="number">285</span>,$color1,$font1,$school);</span><br><span class="line">	imagettftext($dst,<span class="number">25</span>,<span class="number">0</span>,<span class="number">310</span>,<span class="number">500</span>,$color2,$font2,$total);</span><br><span class="line">	imagettftext($dst,<span class="number">20</span>,<span class="number">0</span>,<span class="number">460</span>,<span class="number">555</span>,$color1,$font1,$score1);</span><br><span class="line">	imagettftext($dst,<span class="number">20</span>,<span class="number">0</span>,<span class="number">460</span>,<span class="number">615</span>,$color1,$font1,$score2);</span><br><span class="line">	imagettftext($dst,<span class="number">20</span>,<span class="number">0</span>,<span class="number">460</span>,<span class="number">675</span>,$color1,$font1,$score3);</span><br><span class="line">	<span class="comment">//生成图片</span></span><br><span class="line">	imagejpeg($dst);</span><br><span class="line">	imagedestroy($dst);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>运行效果如下：</p>
+<p><img src="/post/" alt="运行效果图"></p>
+<p>核心部分已经实现了，接下来我们实现采集用户信息并将其传送到php中。</p>
+<h1 id="HTML表单采集需要的信息"><a href="#HTML表单采集需要的信息" class="headerlink" title="HTML表单采集需要的信息"></a>HTML表单采集需要的信息</h1><p>我们在这个PHP最后追加如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line">	年份：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"year"</span> <span class="attr">placeholder</span>=<span class="string">"年份"</span> <span class="attr">value</span>=<span class="string">"2018"</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">	姓名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">placeholder</span>=<span class="string">"姓名"</span> &gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">	学校：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"school"</span> <span class="attr">placeholder</span>=<span class="string">"学校"</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">	听力：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"score1"</span> <span class="attr">placeholder</span>=<span class="string">"听力"</span> <span class="attr">id</span>=<span class="string">"score1"</span> &gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">	阅读：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"score2"</span> <span class="attr">placeholder</span>=<span class="string">"阅读"</span> <span class="attr">id</span>=<span class="string">"score2"</span> &gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">	写作和翻译<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"score3"</span> <span class="attr">placeholder</span>=<span class="string">"写作和翻译："</span> <span class="attr">id</span>=<span class="string">"score3"</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"确定"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这时候运行会得到一个表单，填写后会发现URL发生了变化，说明form写正确了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.northword.cn/cet-funny/1/index2.php?year=2018&amp;name=1&amp;school=0&amp;score1=0&amp;score2=0&amp;score3=20</span><br></pre></td></tr></table></figure></p>
+<p>现在让php接受html传递的数据，把php“定义文字”部分的代码改更为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$year=$_GET[<span class="string">"year"</span>];</span><br><span class="line">$name=$_GET[<span class="string">"name"</span>];</span><br><span class="line">$school=$_GET[<span class="string">"school"</span>];</span><br><span class="line">$score1=$_GET[<span class="string">"score1"</span>];   <span class="comment">//听力</span></span><br><span class="line">$score2=$_GET[<span class="string">"score2"</span>];   <span class="comment">//阅读</span></span><br><span class="line">$score3=$_GET[<span class="string">"score3"</span>];   <span class="comment">//写作翻译</span></span><br><span class="line">$total=$_GET[<span class="string">"score1"</span>]+$_GET[<span class="string">"score2"</span>]+$_GET[<span class="string">"score3"</span>];    <span class="comment">//总分</span></span><br><span class="line">$grade=$_GET[<span class="string">"grade"</span>];</span><br><span class="line">$session=$_GET[<span class="string">"session"</span>];</span><br></pre></td></tr></table></figure></p>
+<p>运行效果如下：<br><img src="/post/" alt="传值运行效果"><br>到了这就已经基本完成目标需求了，接下来我们来完善一下细节。</p>
+<h1 id="其他细节"><a href="#其他细节" class="headerlink" title="其他细节"></a>其他细节</h1><h2 id="计算总分"><a href="#计算总分" class="headerlink" title="计算总分"></a>计算总分</h2><p>我们发现在输入的时候“总分”是需要用户自行计算的，那能不能我们获取用户输入的三科成绩自动求和并显示在页面上呢？想到了监听文本框值的变化：oninput是监听文本框值变化，有变化触发onInput(event)事件，事件中通过id获取id为score1、score2、score3的元素的值，求和后赋给id为total的html元素。<br>给三科成绩的输入框添加Id和事件：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"score1"</span> <span class="attr">id</span>=<span class="string">"score1"</span> <span class="attr">placeholder</span>=<span class="string">"听力"</span> <span class="attr">oninput</span>=<span class="string">"OnInput (event)"</span> <span class="attr">id</span>=<span class="string">"score1"</span> &gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"score2"</span>  <span class="attr">id</span>=<span class="string">"score2"</span> <span class="attr">placeholder</span>=<span class="string">"阅读"</span> <span class="attr">oninput</span>=<span class="string">"OnInput (event)"</span> <span class="attr">id</span>=<span class="string">"score2"</span> &gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"score3"</span>  <span class="attr">id</span>=<span class="string">"score3"</span> <span class="attr">placeholder</span>=<span class="string">"写作和翻译："</span> <span class="attr">oninput</span>=<span class="string">"OnInput (event)"</span> <span class="attr">id</span>=<span class="string">"score3"</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line"></span><br><span class="line">当前总分：<span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">"total"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>添加如下脚本，<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line"><span class="comment">//当听力、阅读、写作的输入框值变化时计算总分并赋给id为total的元素</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">OnInput</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">	<span class="built_in">document</span>.getElementById(<span class="string">"total"</span>).innerHTML=(<span class="built_in">parseInt</span>(<span class="built_in">document</span>.getElementById(<span class="string">"score1"</span>).value)+<span class="built_in">parseInt</span>(<span class="built_in">document</span>.getElementById(<span class="string">"score2"</span>).value)+<span class="built_in">parseInt</span>(<span class="built_in">document</span>.getElementById(<span class="string">"score3"</span>).value));</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如此便解决了这个细节。</p>
+<h2 id="自适应页面"><a href="#自适应页面" class="headerlink" title="自适应页面"></a>自适应页面</h2><p>在手机端查看的时候不能自动缩放到合适的尺寸，搜索了一番，在<head><meta name="generator" content="Hexo 3.8.0">里加上一行如下代码最简便，原理不知道。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes"</span>&gt;</span></span><br></pre></td></tr></table></figure></head></p>
+<h2 id="选择等级的单选框"><a href="#选择等级的单选框" class="headerlink" title="选择等级的单选框"></a>选择等级的单选框</h2><p>我们发现无法选择考试等级和场次，给表单中加个radio，并给php中加上相应的变量即可。<br>在这里需要注意的是label和radio之间可以用id连接，以便用户点击文字的时候也可以选上。<br>见<a href="#">《from中单选点击文字即可选中选项的方法（radio与lable的连接）》</a></p>
+<h2 id="对正文本框"><a href="#对正文本框" class="headerlink" title="对正文本框"></a>对正文本框</h2><p>然后我们发现文本框对不齐，我们给他加一个表格以使它对齐。</p>
+<h2 id="js控制的传值"><a href="#js控制的传值" class="headerlink" title="js控制的传值"></a>js控制的传值</h2><p>发现点击提交之后跳转到php图片那里无法再跳转回去，能不能不跳转实现传递数据呢，可以通过js。<br>见<a href="#">《HTML form与php间传值的几种方法》</a></p>
+<h2 id="CSS控制图片显示隐藏"><a href="#CSS控制图片显示隐藏" class="headerlink" title="CSS控制图片显示隐藏"></a>CSS控制图片显示隐藏</h2><p>通过上面设置后发现在用户输入前图片也是被展示的，这样不好，我们应该让输入前没有图片，提交后再出现图片。</p>
+<p>我们把结果页的全部放进一个div容器里，<code>class=&quot;img-container&quot;</code>，表单页放进一个<code>&lt;div class=&quot;form-container&quot;&gt;</code>里，给<code>提交按钮</code>添加事件使点击<code>提交</code>时隐藏form-container，显示img-container，这个可以通过更改div的css实现。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showimg</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">//显示返回的图片</span></span><br><span class="line">	<span class="built_in">document</span>.getElementById(<span class="string">'div-img'</span>).style.display=<span class="string">'block'</span>;</span><br><span class="line">	<span class="built_in">document</span>.getElementById(<span class="string">'div-from'</span>).style.display=<span class="string">'none'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//返回重填按钮事件：隐藏图片，显示表单</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hiddenimg</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">document</span>.getElementById(<span class="string">'div-img'</span>).style.display=<span class="string">'none'</span>;</span><br><span class="line">	<span class="built_in">document</span>.getElementById(<span class="string">'div-from'</span>).style.display=<span class="string">'block'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如此基本完成了一个还算说得过去的东西。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="../tags/PHP/" rel="tag"># PHP</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div class="social_share">
+            
+            
+               <div id="needsharebutton-postbottom">
+                 <span class="btn">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                 </span>
+               </div>
+            
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="adobe.html" rel="next" title="Adobe系列特别版下载">
+                <i class="fa fa-chevron-left"></i> Adobe系列特别版下载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="iframe-autoHeight.html" rel="prev" title="CSS使iframe自适应">
+                CSS使iframe自适应 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="../images/avatar.jpg"
+                alt="Northword" />
+            
+              <p class="site-author-name" itemprop="name">Northword</p>
+              <p class="site-description motion-element" itemprop="description">一个记录个人技术心得的博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="../archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="../categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="../tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="../atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备图片"><span class="nav-number">1.</span> <span class="nav-text">准备图片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP实现向图片写入文字"><span class="nav-number">2.</span> <span class="nav-text">PHP实现向图片写入文字</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML表单采集需要的信息"><span class="nav-number">3.</span> <span class="nav-text">HTML表单采集需要的信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他细节"><span class="nav-number">4.</span> <span class="nav-text">其他细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算总分"><span class="nav-number">4.1.</span> <span class="nav-text">计算总分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自适应页面"><span class="nav-number">4.2.</span> <span class="nav-text">自适应页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择等级的单选框"><span class="nav-number">4.3.</span> <span class="nav-text">选择等级的单选框</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对正文本框"><span class="nav-number">4.4.</span> <span class="nav-text">对正文本框</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js控制的传值"><span class="nav-number">4.5.</span> <span class="nav-text">js控制的传值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS控制图片显示隐藏"><span class="nav-number">4.6.</span> <span class="nav-text">CSS控制图片显示隐藏</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Northword.cn</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Gemini</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="../lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="../js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="../js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="../js/src/affix.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="../js/src/schemes/pisces.js?v=6.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="../js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="../js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="../js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+        // ref: https://github.com/ForbesLindesay/unescape-html
+        var unescapeHtml = function(html) {
+          return String(html)
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, '\'')
+            .replace(/&#x3A;/g, ':')
+            // replace all the other &#x; chars
+            .replace(/&#(\d+);/g, function (m, p) { return String.fromCharCode(p); })
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
+        };
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                content = unescapeHtml(content);
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+  
+  
+  <script src="../lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="../js/src/js.cookie.js?v=6.5.0"></script>
+  <script type="text/javascript" src="../js/src/scroll-cookie.js?v=6.5.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
